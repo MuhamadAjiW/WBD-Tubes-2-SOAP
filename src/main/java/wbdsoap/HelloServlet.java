@@ -1,4 +1,4 @@
-package wbd.soap.tubes2wbdsoap;
+package wbdsoap;
 
 import java.io.*;
 
@@ -14,6 +14,8 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("Page is accessed");
+
         response.setContentType("text/html");
 
         // Hello

@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+         https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
+    <listener>
+        <listener-class>wbdsoap.MainContextListener</listener-class>
+    </listener>
     
     <servlet>
-        <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>wbd.soap.tubes2wbdsoap.HelloServlet</servlet-class>
+        <servlet-name>BaseServlet</servlet-name>
+        <servlet-class>wbdsoap.HelloServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>HelloServlet</servlet-name>
-        <url-pattern>/Hello</url-pattern>
+        <servlet-name>BaseServlet</servlet-name>
+        <url-pattern>/Base</url-pattern>
     </servlet-mapping>
+
+<!--    <servlet>-->
+<!--        <servlet-name>TestServlet</servlet-name>-->
+<!--        <servlet-class>wbdsoap.services.TestService</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>TestServlet</servlet-name>-->
+<!--        <url-pattern>/Test</url-pattern>-->
+<!--    </servlet-mapping>-->
 
 </web-app>

@@ -1,10 +1,18 @@
-version: "3.3"
+version: '3.8'
 services:
   soap-api:
-    hostname: service_wbd_2_soap
-    image: tubes-wbd-2-soap:latest
     ports:
-      - 8021:8080
-    build:
-      context: .
-      dockerfile: Dockerfile
+      - "8021:8080"
+    env_file: .env
+    volumes:
+      - .:/usr/src/app
+    build: .
+  soap-db:
+    image: mysql:latest
+    ports:
+      - "8022:3306"
+    env_file: .env
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./db:/var/lib/mysql
