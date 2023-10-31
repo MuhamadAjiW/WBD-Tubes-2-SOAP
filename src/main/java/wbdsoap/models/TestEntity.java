@@ -1,6 +1,6 @@
 package wbdsoap.models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 @Entity
 @Table(name = "TestTable")
 public class TestEntity {

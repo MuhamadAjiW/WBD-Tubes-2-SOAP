@@ -1,6 +1,5 @@
 package wbdsoap.utils;
 
-//import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

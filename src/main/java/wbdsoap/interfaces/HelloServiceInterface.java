@@ -1,7 +1,7 @@
 package wbdsoap.interfaces;
 
-import jakarta.jws.WebMethod;
-import jakarta.jws.WebService;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
 @WebService
 public interface HelloServiceInterface {

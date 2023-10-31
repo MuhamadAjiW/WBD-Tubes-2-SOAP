@@ -1,3 +1,6 @@
-FROM tomcat:9-jdk8-corretto
-COPY target/wbdsoap-1.0.war /usr/local/tomcat/webapps/
+FROM tomee:8.0.15-jre8
+WORKDIR /usr/local/tomee/webapps
+COPY target/wbdsoap-1.0.war .
 EXPOSE 8080
+RUN sed -i "s/8080/50000/g" /usr/local/tomee/conf/server.xml
+CMD ["catalina.sh", "run"]

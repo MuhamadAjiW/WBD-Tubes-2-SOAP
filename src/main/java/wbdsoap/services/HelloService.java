@@ -1,12 +1,11 @@
 package wbdsoap.services;
 
-import jakarta.jws.WebParam;
-import jakarta.jws.WebResult;
-import jakarta.jws.WebService;
-import jakarta.jws.soap.SOAPBinding;
-import jakarta.servlet.Servlet;
-import jakarta.servlet.http.HttpServlet;
 import wbdsoap.interfaces.HelloServiceInterface;
+
+import javax.jws.WebParam;
+import javax.jws.WebResult;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
 @WebService
 @SOAPBinding(style= SOAPBinding.Style.RPC)

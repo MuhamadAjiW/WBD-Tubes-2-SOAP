@@ -1,16 +1,16 @@
 package wbdsoap.services;
 
-import jakarta.jws.WebMethod;
-import jakarta.jws.WebService;
-import jakarta.jws.soap.SOAPBinding;
-import jakarta.servlet.http.HttpServlet;
 import wbdsoap.daos.TestDAO;
 import wbdsoap.models.TestEntity;
 import wbdsoap.utils.HibernateUtil;
 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+
 @WebService(endpointInterface = "Test")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
-public class TestService extends HttpServlet {
+public class TestService {
     private TestDAO testDAO;
 
     public TestService(){
