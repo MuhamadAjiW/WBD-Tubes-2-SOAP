@@ -10,7 +10,7 @@ import javax.jws.soap.SOAPBinding;
 @WebService
 @SOAPBinding(style= SOAPBinding.Style.RPC)
 public class HelloService implements HelloServiceInterface {
-    @WebResult(name = "String")
+    @WebResult(name = "message")
     public String hello(@WebParam(name = "message") String message){
         return "Hello, your message is " + message;
     }

@@ -1,6 +1,7 @@
 package wbdsoap.models;
 
 import javax.persistence.*;
+
 @Entity
 @Table(name = "TestTable")
 public class TestEntity {
@@ -22,5 +23,9 @@ public class TestEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDescription(){
+        return this.description;
     }
 }

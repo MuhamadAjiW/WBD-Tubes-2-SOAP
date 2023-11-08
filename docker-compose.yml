@@ -1,17 +1,17 @@
 version: '3.8'
 services:
-  soap-api:
+  api:
     ports:
       - "8080:8080"
-    env_file: .env
+    env_file: .env_docker
     volumes:
       - .:/usr/src/app
     build: .
-  soap-db:
+  db:
     image: mysql:latest
     ports:
       - "8033:3306"
-    env_file: .env
+    env_file: .env_docker
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
