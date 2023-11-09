@@ -3,20 +3,21 @@ package wbdsoap.daos;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import wbdsoap.models.LogEntity;
 import wbdsoap.models.TestEntity;
 
-public class TestDAO {
+public class LogDAO {
     private final SessionFactory sessionFactory;
 
-    public TestDAO(SessionFactory sessionFactory){
+    public LogDAO(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }
 
-    public void insertData(TestEntity testEntity){
+    public void insertData(LogEntity logEntity){
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.save(testEntity);
+            session.save(logEntity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

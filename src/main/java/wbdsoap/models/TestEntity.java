@@ -8,7 +8,7 @@ public class TestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private int ID;
+    private int Id;
 
     @Column(nullable = false)
     private String description;
