@@ -1,9 +1,9 @@
 package wbdsoap;
 
 import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
-import wbdsoap.classes.SOAPEndpoint;
+import wbdsoap.utils.others.SOAPEndpoint;
 import wbdsoap.middlewares.Logger;
-import wbdsoap.services.HelloService;
+import wbdsoap.services.SubscriptionService;
 import wbdsoap.services.TestService;
 
 import javax.servlet.ServletContextEvent;
@@ -20,13 +20,14 @@ public class Main implements ServletContextListener {
                 System.out.println("Mysql failed to initialize");
                 e.printStackTrace();
             }
-            SOAPEndpoint helloEndpoint = new SOAPEndpoint(Endpoint.create(new HelloService()));
-            helloEndpoint.addMiddleware(new Logger());
-            helloEndpoint.publish("http://0.0.0.0:8080/hello");
 
             SOAPEndpoint testEndpoint = new SOAPEndpoint(Endpoint.create(new TestService()));
             testEndpoint.addMiddleware(new Logger());
-            testEndpoint.publish("http://0.0.0.0:8080/test");
+            testEndpoint.publish("http://0.0.0.0:8080/api/test");
+
+            SOAPEndpoint subscribeEndpoint = new SOAPEndpoint(Endpoint.create(new SubscriptionService()));
+            subscribeEndpoint.addMiddleware(new Logger());
+            subscribeEndpoint.publish("http://0.0.0.0:8080/api/subscribe");
 
             System.out.println("Server is running");
         } catch (Exception e){

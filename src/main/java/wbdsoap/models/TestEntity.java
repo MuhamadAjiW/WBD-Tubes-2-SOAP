@@ -1,9 +1,12 @@
 package wbdsoap.models;
 
+import wbdsoap.utils.HibernateUtil;
+
 import javax.persistence.*;
 
+// TODO: Delete when done
 @Entity
-@Table(name = "TestTable")
+@Table(name = "test_table")
 public class TestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +19,6 @@ public class TestEntity {
     public TestEntity() {
         description = "";
     }
-
     public TestEntity(String description){
         this.description = description;
     }

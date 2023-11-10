@@ -1,4 +1,4 @@
-package wbdsoap.classes;
+package wbdsoap.utils.others;
 
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.handler.Handler;

@@ -1,11 +1,11 @@
-package wbdsoap.classes;
+package wbdsoap.daos;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class GenericDAO<T> {
-    private final SessionFactory sessionFactory;
+    protected final SessionFactory sessionFactory;
 
     public GenericDAO(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;

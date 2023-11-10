@@ -4,7 +4,7 @@ import javax.xml.soap.SOAPMessage;
 import java.io.ByteArrayOutputStream;
 
 public class DebugUtil {
-    private static void printMessage(SOAPMessage message){
+    private static void printSOAPMessage(SOAPMessage message){
         try{
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             message.writeTo(out);
