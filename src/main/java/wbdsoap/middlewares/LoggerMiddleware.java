@@ -16,10 +16,10 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import java.time.Instant;
 import java.util.Set;
 
-public class Logger implements SOAPHandler<SOAPMessageContext> {
+public class LoggerMiddleware implements SOAPHandler<SOAPMessageContext> {
     private final LogDAO logDAO;
 
-    public Logger(){
+    public LoggerMiddleware(){
         logDAO = new LogDAO(HibernateUtil.getSessionFactory());
     }
 

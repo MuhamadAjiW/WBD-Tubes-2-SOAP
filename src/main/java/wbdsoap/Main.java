@@ -2,7 +2,7 @@ package wbdsoap;
 
 import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
 import wbdsoap.utils.others.SOAPEndpoint;
-import wbdsoap.middlewares.Logger;
+import wbdsoap.middlewares.LoggerMiddleware;
 import wbdsoap.services.SubscriptionService;
 import wbdsoap.utils.test.TestService;
 
@@ -23,11 +23,11 @@ public class Main implements ServletContextListener {
 
             // TODO: Delete when done
             SOAPEndpoint testEndpoint = new SOAPEndpoint(Endpoint.create(new TestService()));
-            testEndpoint.addMiddleware(new Logger());
+            testEndpoint.addMiddleware(new LoggerMiddleware());
             testEndpoint.publish("http://0.0.0.0:8080/api/test");
 
             SOAPEndpoint subscribeEndpoint = new SOAPEndpoint(Endpoint.create(new SubscriptionService()));
-            subscribeEndpoint.addMiddleware(new Logger());
+            subscribeEndpoint.addMiddleware(new LoggerMiddleware());
             subscribeEndpoint.publish("http://0.0.0.0:8080/api/subscribe");
 
             System.out.println("Server is running");
