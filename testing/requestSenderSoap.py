@@ -65,8 +65,31 @@ def subtest():
     print(response.content)
     return response.content
 
+def updatetest():
+    soap_action = "http://services.wbdsoap/SubscriptionService/subscribeUpdate"
+    url = "http://localhost:8080/api/subscribe"
+    headers = {
+        "Content-Type": "text/xml;charset=UTF-8",
+        "SOAPAction": f'"{soap_action}"',
+    }
+    body = """
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://services.wbdsoap/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <tns:subscribeUpdate>
+            <user_id>1</user_id>
+            <author_id>1</author_id>
+            <status>2</status>
+        </tns:subscribeUpdate>
+    </soapenv:Body>
+    </soapenv:Envelope>
+    """
+    response = requests.post(url, headers=headers, data=body)
+    print(response.content)
+    return response.content
+
 if __name__ == "__main__":
-    response_text = subtest()
+    response_text = updatetest()
     # root = et.fromstring(response_text)
     # message = root.find(".//return/message").text
     # valid = root.find(".//return/valid").text

@@ -2,6 +2,7 @@ package wbdsoap.daos;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import wbdsoap.enums.SubscriptionStatusEnum;
 import wbdsoap.models.SubscriptionEntity;
 
 import javax.persistence.Query;
@@ -38,6 +39,17 @@ public class SubscriptionDAO extends GenericDAO<SubscriptionEntity> {
             Query query = session.createQuery(hql);
             query.setParameter("author_id", author_id);
             return query.getResultList();
+        }
+    }
+
+    public int updateStatus(Integer user_id, Integer author_id, SubscriptionStatusEnum status){
+        try (Session session = this.sessionFactory.openSession()) {
+            String hql = "UPDATE SubscriptionEntity t SET status = :status WHERE t.author_id = :author_id AND t.user_id = :user_id";
+            Query query = session.createQuery(hql);
+            query.setParameter("author_id", author_id);
+            query.setParameter("user_id", user_id);
+            query.setParameter("status", status);
+            return query.executeUpdate();
         }
     }
 }

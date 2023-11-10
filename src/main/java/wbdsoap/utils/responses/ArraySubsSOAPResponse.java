@@ -6,15 +6,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class ArraySubsResponse extends BasicSOAPResponse{
+public class ArraySubsSOAPResponse extends SOAPResponse {
     @XmlElement
     private SubscriptionEntity[] data;
 
-    public ArraySubsResponse(){
+    public ArraySubsSOAPResponse(){
         super();
         this.data = null;
     }
-    public ArraySubsResponse(String message, boolean valid, SubscriptionEntity[] data){
+    public ArraySubsSOAPResponse(String message, boolean valid, SubscriptionEntity[] data){
         super(message, valid);
         this.data = data;
     }
