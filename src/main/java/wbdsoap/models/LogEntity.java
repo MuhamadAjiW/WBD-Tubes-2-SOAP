@@ -1,6 +1,7 @@
 package wbdsoap.models;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "log")
@@ -11,7 +12,7 @@ public class LogEntity {
     private int id;
 
     @Column(nullable = false)
-    private java.sql.Timestamp timestamp;
+    private Instant timestamp;
 
     @Column(nullable = false)
     private String ip;
@@ -24,10 +25,11 @@ public class LogEntity {
     private String description;
 
     public LogEntity(){}
-    public LogEntity(String ip, String endpoint, String description){
+    public LogEntity(String ip, String endpoint, String description, Instant timestamp){
         this.ip = ip;
         this.endpoint = endpoint;
         this.description = description;
+        this.timestamp = timestamp;
     }
 
     public String setIP(String ip){
@@ -44,6 +46,12 @@ public class LogEntity {
         this.description = description;
         return this.description;
     }
+
+    public Instant setTimestamp(Instant timestamp){
+        this.timestamp = timestamp;
+        return this.timestamp;
+    }
+
 
     public String getIp(){
         return this.ip;

@@ -41,4 +41,4 @@ def inserttest():
     print(response.content)
 
 if __name__ == "__main__":
-    hellotest()
+    inserttest()

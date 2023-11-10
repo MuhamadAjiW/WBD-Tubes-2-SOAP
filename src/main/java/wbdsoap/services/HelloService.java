@@ -14,4 +14,10 @@ public class HelloService {
     public String hello(@WebParam(name = "message") String message){
         return "Hello, your message is " + message;
     }
+
+    @WebMethod
+    @WebResult(name = "message")
+    public String hello2args(@WebParam(name = "message") String message, @WebParam(name = "message2") String message2){
+        return "Hello, your message is " + message + ", your second message is " + message2;
+    }
 }

@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import wbdsoap.models.LogEntity;
 import wbdsoap.models.TestEntity;
 
 import java.util.Properties;
@@ -33,6 +34,7 @@ public class HibernateUtil {
         configuration.setProperties(properties);
 
         configuration.addAnnotatedClass(TestEntity.class);
+        configuration.addAnnotatedClass(LogEntity.class);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
                 configuration.getProperties()).build();
