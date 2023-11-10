@@ -4,7 +4,7 @@ import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
 import wbdsoap.utils.others.SOAPEndpoint;
 import wbdsoap.middlewares.Logger;
 import wbdsoap.services.SubscriptionService;
-import wbdsoap.services.TestService;
+import wbdsoap.utils.test.TestService;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -21,6 +21,7 @@ public class Main implements ServletContextListener {
                 e.printStackTrace();
             }
 
+            // TODO: Delete when done
             SOAPEndpoint testEndpoint = new SOAPEndpoint(Endpoint.create(new TestService()));
             testEndpoint.addMiddleware(new Logger());
             testEndpoint.publish("http://0.0.0.0:8080/api/test");

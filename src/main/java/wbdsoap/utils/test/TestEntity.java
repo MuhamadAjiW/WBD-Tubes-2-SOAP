@@ -1,4 +1,4 @@
-package wbdsoap.models;
+package wbdsoap.utils.test;
 
 import wbdsoap.utils.HibernateUtil;
 

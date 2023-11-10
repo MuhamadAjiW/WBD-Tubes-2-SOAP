@@ -7,7 +7,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import wbdsoap.models.LogEntity;
 import wbdsoap.models.SubscriptionEntity;
-import wbdsoap.models.TestEntity;
+import wbdsoap.utils.test.TestEntity;
 
 import java.util.Properties;
 

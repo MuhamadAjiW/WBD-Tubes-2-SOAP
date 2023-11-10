@@ -1,9 +1,6 @@
-package wbdsoap.services;
+package wbdsoap.utils.test;
 
-import wbdsoap.utils.others.testXML;
-import wbdsoap.daos.TestDAO;
 import wbdsoap.models.SubscriptionEntity;
-import wbdsoap.models.TestEntity;
 import wbdsoap.utils.HibernateUtil;
 
 import javax.jws.WebMethod;
@@ -36,7 +33,7 @@ public class TestService {
 
 
     @WebMethod
-    public testXML<SubscriptionEntity> getData(){
-        return new testXML<>(new SubscriptionEntity[]{new SubscriptionEntity(), new SubscriptionEntity()});
+    public TestXML<SubscriptionEntity> getData(){
+        return new TestXML<>(new SubscriptionEntity[]{new SubscriptionEntity(), new SubscriptionEntity()});
     }
 }
