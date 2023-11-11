@@ -43,6 +43,27 @@ def inserttest():
     print(response.content)
     return response.content
 
+def methodtest():
+    soap_action = "http://services.wbdsoap/TestService/someMethod"
+    url = "http://localhost:8080/api/test"
+    headers = {
+        "Content-Type": "text/xml;charset=UTF-8",
+        "SOAPAction": f'"{soap_action}"',
+    }
+    body = """
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://services.wbdsoap/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <tns:someMethod>
+            <message>Some Message</message>
+        </tns:someMethod>
+    </soapenv:Body>
+    </soapenv:Envelope>
+    """
+    response = requests.post(url, headers=headers, data=body)
+    print(response.content)
+    return response.content
+
 def subtest():
     soap_action = "http://services.wbdsoap/SubscriptionService/getSubscriptionsByUser"
     url = "http://localhost:8080/api/subscribe"
@@ -89,7 +110,7 @@ def updatetest():
     return response.content
 
 if __name__ == "__main__":
-    response_text = updatetest()
+    response_text = methodtest()
     # root = et.fromstring(response_text)
     # message = root.find(".//return/message").text
     # valid = root.find(".//return/valid").text

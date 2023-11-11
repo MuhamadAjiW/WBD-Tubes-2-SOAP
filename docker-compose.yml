@@ -7,6 +7,8 @@ services:
     volumes:
       - .:/usr/src/app
     build: .
+    networks:
+      - wbdNet
   db:
     image: mysql:latest
     ports:
@@ -16,3 +18,9 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - ./db:/var/lib/mysql
+    networks:
+      - wbdNet
+networks:
+  wbdNet:
+    external:
+      true

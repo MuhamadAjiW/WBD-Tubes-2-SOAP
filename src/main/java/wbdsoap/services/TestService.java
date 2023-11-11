@@ -1,7 +1,12 @@
-package wbdsoap.utils.test;
+package wbdsoap.services;
 
-import wbdsoap.models.SubscriptionEntity;
+import org.json.simple.JSONObject;
+import wbdsoap.enums.HTTPMethodEnum;
+import wbdsoap.test.TestDAO;
+import wbdsoap.test.TestEntity;
 import wbdsoap.utils.HibernateUtil;
+import wbdsoap.utils.RESTUtil;
+import wbdsoap.utils.responses.HTTPResponse;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -31,9 +36,14 @@ public class TestService {
         return "Data insertion success";
     }
 
-
     @WebMethod
-    public TestXML<SubscriptionEntity> getData(){
-        return new TestXML<>(new SubscriptionEntity[]{new SubscriptionEntity(), new SubscriptionEntity()});
+    public HTTPResponse someMethod(){
+        JSONObject json = new JSONObject();
+        json.put("email", "soap@example.com");
+        json.put("username", "soap");
+        json.put("password", "dummy_password");
+        json.put("name", "dummy_password");
+        json.put("bio", "dummy_bio");
+        return RESTUtil.sendRequest("/api/authors", HTTPMethodEnum.POST, json);
     }
 }

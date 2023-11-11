@@ -4,7 +4,7 @@ import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
 import wbdsoap.utils.others.SOAPEndpoint;
 import wbdsoap.middlewares.LoggerMiddleware;
 import wbdsoap.services.SubscriptionService;
-import wbdsoap.utils.test.TestService;
+import wbdsoap.services.TestService;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

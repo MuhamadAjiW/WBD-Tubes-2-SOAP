@@ -7,7 +7,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import wbdsoap.models.LogEntity;
 import wbdsoap.models.SubscriptionEntity;
-import wbdsoap.utils.test.TestEntity;
+import wbdsoap.test.TestEntity;
 
 import java.util.Properties;
 
@@ -22,6 +22,7 @@ public class HibernateUtil {
 
     private static SessionFactory sessionFactory = createSessionFactory();
     private static SessionFactory createSessionFactory(){
+        System.out.println("DBConfig is: " + DB_URL);
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         properties.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
