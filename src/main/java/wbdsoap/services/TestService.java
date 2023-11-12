@@ -1,7 +1,7 @@
 package wbdsoap.services;
 
 import org.json.simple.JSONObject;
-import wbdsoap.enums.HTTPMethodEnum;
+import wbdsoap.enums.HTTPMethod;
 import wbdsoap.test.TestDAO;
 import wbdsoap.test.TestEntity;
 import wbdsoap.utils.HibernateUtil;
@@ -44,6 +44,6 @@ public class TestService {
         json.put("password", "dummy_password");
         json.put("name", "dummy_password");
         json.put("bio", "dummy_bio");
-        return RESTUtil.sendRequest("/api/authors", HTTPMethodEnum.POST, json);
+        return RESTUtil.sendRequest("/api/authors", HTTPMethod.POST, json);
     }
 }

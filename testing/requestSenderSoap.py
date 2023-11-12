@@ -100,7 +100,7 @@ def updatetest():
         <tns:subscribeUpdate>
             <user_id>1</user_id>
             <author_id>1</author_id>
-            <status>2</status>
+            <status>ACCEPT</status>
         </tns:subscribeUpdate>
     </soapenv:Body>
     </soapenv:Envelope>
@@ -110,7 +110,7 @@ def updatetest():
     return response.content
 
 if __name__ == "__main__":
-    response_text = hellotest()
+    response_text = updatetest()
     # root = et.fromstring(response_text)
     # message = root.find(".//return/message").text
     # valid = root.find(".//return/valid").text

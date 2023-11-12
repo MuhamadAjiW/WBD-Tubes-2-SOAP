@@ -1,6 +1,6 @@
 package wbdsoap.enums;
 
-public enum SubscriptionStatusEnum {
+public enum SubscriptionStatus {
     ERROR,
     PENDING,
     ACCEPTED,

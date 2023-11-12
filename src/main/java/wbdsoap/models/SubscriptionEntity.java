@@ -1,6 +1,6 @@
 package wbdsoap.models;
 
-import wbdsoap.enums.SubscriptionStatusEnum;
+import wbdsoap.enums.SubscriptionStatus;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,23 +21,23 @@ public class SubscriptionEntity implements Serializable {
 
     @Column(nullable = false)
     @XmlElement
-    public SubscriptionStatusEnum status;
+    public SubscriptionStatus status;
 
     public SubscriptionEntity() {
         this.user_id = 0;
         this.author_id = 0;
-        this.status = SubscriptionStatusEnum.ERROR;
+        this.status = SubscriptionStatus.ERROR;
     }
     public SubscriptionEntity(int user_id, int author_id){
         this.user_id = user_id;
         this.author_id = author_id;
-        this.status = SubscriptionStatusEnum.PENDING;
+        this.status = SubscriptionStatus.PENDING;
     }
     public void accept(){
-        this.status = SubscriptionStatusEnum.ACCEPTED;
+        this.status = SubscriptionStatus.ACCEPTED;
     }
 
     public void reject(){
-        this.status = SubscriptionStatusEnum.REJECTED;
+        this.status = SubscriptionStatus.REJECTED;
     }
 }

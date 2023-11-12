@@ -2,7 +2,7 @@ package wbdsoap.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.simple.JSONObject;
-import wbdsoap.enums.HTTPMethodEnum;
+import wbdsoap.enums.HTTPMethod;
 import wbdsoap.utils.responses.HTTPResponse;
 
 import java.io.*;
@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 public class RESTUtil {
     public static String restURL = "http://tugas-besar-2-wbd-rest-api-1:8011";
 
-    public static HTTPResponse sendRequest(String endpoint, HTTPMethodEnum method, JSONObject data){
+    public static HTTPResponse sendRequest(String endpoint, HTTPMethod method, JSONObject data){
         HttpURLConnection http = null;
         try {
             URL url = new URL(restURL + endpoint);
@@ -27,7 +27,7 @@ public class RESTUtil {
                 case PATCH: http.setRequestMethod("PATCH");break;
             }
 
-            if(method == HTTPMethodEnum.POST || method == HTTPMethodEnum.PUT || method == HTTPMethodEnum.PATCH){
+            if(method == HTTPMethod.POST || method == HTTPMethod.PUT || method == HTTPMethod.PATCH){
                 http.setRequestProperty("Authorization", "Bearer " + Dotenv.load().get("API_KEY", "nyabun"));
                 http.setRequestProperty("Content-Type", "application/json");
                 String jsonData = data.toJSONString();

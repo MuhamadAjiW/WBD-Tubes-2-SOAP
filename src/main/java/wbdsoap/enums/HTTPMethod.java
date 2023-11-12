@@ -1,6 +1,6 @@
 package wbdsoap.enums;
 
-public enum HTTPMethodEnum {
+public enum HTTPMethod {
     ERROR,
     GET,
     POST,
