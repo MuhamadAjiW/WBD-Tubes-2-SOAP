@@ -111,4 +111,19 @@ public class SubscriptionDAO extends GenericDAO<SubscriptionEntity> {
             return rowsUpdated;
         }
     }
+
+    public int deleteOne(Integer user_id, Integer author_id){
+        try (Session session = this.sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            String hql = "DELETE FROM SubscriptionEntity t WHERE t.author_id = :author_id AND t.user_id = :user_id";
+            Query query = session.createQuery(hql);
+            query.setParameter("author_id", author_id);
+            query.setParameter("user_id", user_id);
+
+            int rowsDeleted = query.executeUpdate();
+            session.getTransaction().commit();
+            return rowsDeleted;
+        }
+    }
 }

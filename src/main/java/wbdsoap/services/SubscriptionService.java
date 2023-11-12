@@ -91,7 +91,7 @@ public class SubscriptionService {
             return new GenericSOAPResponse<>("No user_id provided", false, null);
         }
         if(author_id == null){
-            return new GenericSOAPResponse<>("No user_id provided", false, null);
+            return new GenericSOAPResponse<>("No author_id provided", false, null);
         }
 
         List<SubscriptionEntity> subs = subscriptionDAO.selectOne(user_id, author_id);
@@ -109,7 +109,7 @@ public class SubscriptionService {
             return new GenericSOAPResponse<>("No user_id provided", false, null);
         }
         if(author_id == null){
-            return new GenericSOAPResponse<>("No user_id provided", false, null);
+            return new GenericSOAPResponse<>("No author_id provided", false, null);
         }
         if(!subscriptionDAO.selectOne(user_id, author_id).isEmpty()){
             return new GenericSOAPResponse<>("Request already exists", false, null);
@@ -145,9 +145,32 @@ public class SubscriptionService {
             case "PENDING": newStatus = SubscriptionStatus.PENDING;break;
             default: return new GenericSOAPResponse<>("Bad status argument", false, null);
         }
-        //TODO: Debug
-        Integer rowCount = subscriptionDAO.updateStatus(user_id, author_id, newStatus);
 
-        return new GenericSOAPResponse<>("Subscription update success", false, rowCount);
+        int rowCount = subscriptionDAO.updateStatus(user_id, author_id, newStatus);
+        if (rowCount == 0){
+            return new GenericSOAPResponse<>("Subscription request successfully updated", true, rowCount);
+        }
+        else{
+            return new GenericSOAPResponse<>("Subscription entry does not exist", false, null);
+        }
     }
+
+    @WebMethod
+    public GenericSOAPResponse<Integer> deleteSubscriptionsOne(@WebParam(name = "user_id") Integer user_id, @WebParam(name = "author_id") Integer author_id){
+        if(user_id == null){
+            return new GenericSOAPResponse<>("No user_id provided", false, null);
+        }
+        if(author_id == null){
+            return new GenericSOAPResponse<>("No author_id provided", false, null);
+        }
+
+        int rowCount = subscriptionDAO.deleteOne(user_id, author_id);
+        if (rowCount == 0){
+            return new GenericSOAPResponse<>("Subscription request successfully deleted", true, rowCount);
+        }
+        else{
+            return new GenericSOAPResponse<>("Subscription entry does not exist", false, null);
+        }
+    }
+
 }
