@@ -110,7 +110,7 @@ def updatetest():
     return response.content
 
 if __name__ == "__main__":
-    response_text = methodtest()
+    response_text = hellotest()
     # root = et.fromstring(response_text)
     # message = root.find(".//return/message").text
     # valid = root.find(".//return/valid").text

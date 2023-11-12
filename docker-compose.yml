@@ -8,7 +8,9 @@ services:
       - .:/usr/src/app
     build: .
     networks:
-      - wbdNet
+      - dockerNet
+    depends_on:
+      - db
   db:
     image: mysql:latest
     ports:
@@ -19,8 +21,8 @@ services:
     volumes:
       - ./db:/var/lib/mysql
     networks:
-      - wbdNet
+      - dockerNet
 networks:
-  wbdNet:
+  dockerNet:
     external:
       true
