@@ -1,8 +1,8 @@
-package wbdsoap.utils;
+package wbdsoap.utils.connections;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.json.simple.JSONObject;
 import wbdsoap.enums.HTTPMethod;
+import wbdsoap.utils.ServerUtil;
 import wbdsoap.utils.responses.HTTPResponse;
 
 import java.io.*;
@@ -10,14 +10,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-// TODO: Implement base calls etc
-public class RESTUtil {
-    public static String restURL = "http://tugas-besar-2-wbd-rest-api-1:8011";
-
-    public static HTTPResponse sendRequest(String endpoint, HTTPMethod method, JSONObject data){
+public class BaseJSONConnection {
+    public HTTPResponse send(String destination, String endpoint, HTTPMethod method, JSONObject data){
         HttpURLConnection http = null;
         try {
-            URL url = new URL(restURL + endpoint);
+            URL url = new URL(destination + endpoint);
             http = (HttpURLConnection) url.openConnection();
             switch (method){
                 case GET: http.setRequestMethod("GET");break;
@@ -28,7 +25,7 @@ public class RESTUtil {
             }
 
             if(method == HTTPMethod.POST || method == HTTPMethod.PUT || method == HTTPMethod.PATCH){
-                http.setRequestProperty("Authorization", "Bearer " + Dotenv.load().get("API_KEY", "nyabun"));
+                http.setRequestProperty("Authorization", "Bearer " + ServerUtil.token);
                 http.setRequestProperty("Content-Type", "application/json");
                 String jsonData = data.toJSONString();
                 System.out.println(jsonData);

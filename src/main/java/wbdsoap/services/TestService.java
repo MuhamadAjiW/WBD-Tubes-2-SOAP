@@ -5,7 +5,7 @@ import wbdsoap.enums.HTTPMethod;
 import wbdsoap.test.TestDAO;
 import wbdsoap.test.TestEntity;
 import wbdsoap.utils.HibernateUtil;
-import wbdsoap.utils.RESTUtil;
+import wbdsoap.utils.connections.RESTConnection;
 import wbdsoap.utils.responses.HTTPResponse;
 
 import javax.jws.WebMethod;
@@ -38,12 +38,14 @@ public class TestService {
 
     @WebMethod
     public HTTPResponse someMethod(){
+        RESTConnection rest = new RESTConnection();
         JSONObject json = new JSONObject();
         json.put("email", "soap@example.com");
         json.put("username", "soap");
         json.put("password", "dummy_password");
         json.put("name", "dummy_password");
         json.put("bio", "dummy_bio");
-        return RESTUtil.sendRequest("/api/authors", HTTPMethod.POST, json);
+
+        return rest.sendRequest("/api/authors", HTTPMethod.POST, json);
     }
 }

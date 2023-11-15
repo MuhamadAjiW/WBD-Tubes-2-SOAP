@@ -70,14 +70,15 @@ def subtest():
     headers = {
         "Content-Type": "text/xml;charset=UTF-8",
         "SOAPAction": f'"{soap_action}"',
+        'Authorization': 'Bearer phpinkm'
     }
     body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://services.wbdsoap/">
     <soapenv:Header/>
     <soapenv:Body>
         <tns:subscribeRequest>
-            <user_id>5</user_id>
-            <author_id>1</author_id>
+            <user_id>100</user_id>
+            <author_id>100</author_id>
         </tns:subscribeRequest>
     </soapenv:Body>
     </soapenv:Envelope>

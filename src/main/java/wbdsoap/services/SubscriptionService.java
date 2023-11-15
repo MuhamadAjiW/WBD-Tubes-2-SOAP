@@ -2,6 +2,9 @@ package wbdsoap.services;
 
 import wbdsoap.enums.SubscriptionFilter;
 import wbdsoap.enums.SubscriptionStatus;
+import wbdsoap.middlewares.AuthMiddleware;
+import wbdsoap.utils.connections.MOLIConnection;
+import wbdsoap.utils.connections.RESTConnection;
 import wbdsoap.utils.responses.ArraySubsSOAPResponse;
 import wbdsoap.utils.responses.GenericSOAPResponse;
 import wbdsoap.daos.SubscriptionDAO;
@@ -16,63 +19,31 @@ import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public class SubscriptionService {
     private final SubscriptionDAO subscriptionDAO;
 
-    private WebServiceContext webServiceContext;
+    private final AuthMiddleware authMiddleware;
 
     @Resource
-    public void setContext(WebServiceContext context) {
-        this.webServiceContext = context;
-    }
+    private WebServiceContext webServiceContext;
 
 
     public SubscriptionService(){
         this.subscriptionDAO = new SubscriptionDAO(HibernateUtil.getSessionFactory());
+        this.authMiddleware = new AuthMiddleware();
     }
 
     @WebMethod
     public ArraySubsSOAPResponse getSubscriptionsByUser(@WebParam(name = "user_id") Integer user_id, @WebParam(name = "filter") String filterArg){
-        // Access WebServiceContext to get the MessageContext
         MessageContext messageContext = webServiceContext.getMessageContext();
-
-        // Get the HTTP headers from the MessageContext
-        Map<String, List<String>> headers = (Map<String, List<String>>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-
-        // Check if the "Authorization" header is present
-        if (headers != null && headers.containsKey("Authorization")) {
-            // Get the value of the "Authorization" header
-            List<String> authHeaderValues = headers.get("Authorization");
-            if (authHeaderValues != null && !authHeaderValues.isEmpty()) {
-                String authHeaderValue = authHeaderValues.get(0);
-
-                // Check if the header starts with "Bearer "
-                if (authHeaderValue.startsWith("Bearer ")) {
-                    // Extract the key part after "Bearer "
-                    String key = authHeaderValue.substring("Bearer ".length());
-
-                    // Now you can use the key as needed
-                    // For example, you can compare it with the expected key
-                    if (!Dotenv.load().get("MOLI_KEY").equals(key)) {
-                       // The provided key does not match the expected key
-                        return new ArraySubsSOAPResponse("Invalid key", false, null);
-                    } 
-                } else {
-                    // Header is not in the expected format
-                    return new ArraySubsSOAPResponse("Invalid Authorization header format", false, null);
-                }
-            }
-        } else {
-            // "Authorization" header is not present
-            return new ArraySubsSOAPResponse("Authorization header is missing", false, null);
-        }
+        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Collections.singletonList(
+                MOLIConnection.token
+        )));
+        if(error != null) return new ArraySubsSOAPResponse(error, false, null);
 
         if(user_id == null){
             return new ArraySubsSOAPResponse("No user_id provided", false, null);
@@ -105,39 +76,11 @@ public class SubscriptionService {
 
     @WebMethod
     public ArraySubsSOAPResponse getSubscriptionsByAuthor(@WebParam(name = "author_id") Integer author_id, @WebParam(name = "filter") String filterArg){
-         // Access WebServiceContext to get the MessageContext
         MessageContext messageContext = webServiceContext.getMessageContext();
-
-        // Get the HTTP headers from the MessageContext
-        Map<String, List<String>> headers = (Map<String, List<String>>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-
-        // Check if the "Authorization" header is present
-        if (headers != null && headers.containsKey("Authorization")) {
-            // Get the value of the "Authorization" header
-            List<String> authHeaderValues = headers.get("Authorization");
-            if (authHeaderValues != null && !authHeaderValues.isEmpty()) {
-                String authHeaderValue = authHeaderValues.get(0);
-
-                // Check if the header starts with "Bearer "
-                if (authHeaderValue.startsWith("Bearer ")) {
-                    // Extract the key part after "Bearer "
-                    String key = authHeaderValue.substring("Bearer ".length());
-
-                    // Now you can use the key as needed
-                    // For example, you can compare it with the expected key
-                    if (!Dotenv.load().get("REST_KEY").equals(key)) {
-                       // The provided key does not match the expected key
-                        return new ArraySubsSOAPResponse("Invalid key", false, null);
-                    } 
-                } else {
-                    // Header is not in the expected format
-                    return new ArraySubsSOAPResponse("Invalid Authorization header format", false, null);
-                }
-            }
-        } else {
-            // "Authorization" header is not present
-            return new ArraySubsSOAPResponse("Authorization header is missing", false, null);
-        }
+        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Collections.singletonList(
+                RESTConnection.token
+        )));
+        if(error != null) return new ArraySubsSOAPResponse(error, false, null);
         
         if(author_id == null){
             return new ArraySubsSOAPResponse("No user_id provided", false, null);
@@ -170,39 +113,11 @@ public class SubscriptionService {
 
     @WebMethod
     public GenericSOAPResponse<SubscriptionEntity> getSubscriptionsOne(@WebParam(name = "user_id") Integer user_id, @WebParam(name = "author_id") Integer author_id){
-         // Access WebServiceContext to get the MessageContext
         MessageContext messageContext = webServiceContext.getMessageContext();
-
-        // Get the HTTP headers from the MessageContext
-        Map<String, List<String>> headers = (Map<String, List<String>>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-
-        // Check if the "Authorization" header is present
-        if (headers != null && headers.containsKey("Authorization")) {
-            // Get the value of the "Authorization" header
-            List<String> authHeaderValues = headers.get("Authorization");
-            if (authHeaderValues != null && !authHeaderValues.isEmpty()) {
-                String authHeaderValue = authHeaderValues.get(0);
-
-                // Check if the header starts with "Bearer "
-                if (authHeaderValue.startsWith("Bearer ")) {
-                    // Extract the key part after "Bearer "
-                    String key = authHeaderValue.substring("Bearer ".length());
-
-                    // Now you can use the key as needed
-                    // For example, you can compare it with the expected key
-                    if (!Dotenv.load().get("REST_KEY").equals(key)) {
-                       // The provided key does not match the expected key
-                        return new GenericSOAPResponse<>("Invalid key", false, null);
-                    } 
-                } else {
-                    // Header is not in the expected format
-                    return new GenericSOAPResponse<>("Invalid Authorization header format", false, null);
-                }
-            }
-        } else {
-            // "Authorization" header is not present
-            return new GenericSOAPResponse<>("Authorization header is missing", false, null);
-        }
+        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Collections.singletonList(
+                RESTConnection.token
+        )));
+        if(error != null) return new GenericSOAPResponse<>(error, false, null);
         
         if(user_id == null){
             return new GenericSOAPResponse<>("No user_id provided", false, null);
@@ -222,39 +137,11 @@ public class SubscriptionService {
 
     @WebMethod
     public GenericSOAPResponse<SubscriptionEntity> subscribeRequest(@WebParam(name = "user_id") Integer user_id, @WebParam(name = "author_id") Integer author_id){
-         // Access WebServiceContext to get the MessageContext
         MessageContext messageContext = webServiceContext.getMessageContext();
-
-        // Get the HTTP headers from the MessageContext
-        Map<String, List<String>> headers = (Map<String, List<String>>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-
-        // Check if the "Authorization" header is present
-        if (headers != null && headers.containsKey("Authorization")) {
-            // Get the value of the "Authorization" header
-            List<String> authHeaderValues = headers.get("Authorization");
-            if (authHeaderValues != null && !authHeaderValues.isEmpty()) {
-                String authHeaderValue = authHeaderValues.get(0);
-
-                // Check if the header starts with "Bearer "
-                if (authHeaderValue.startsWith("Bearer ")) {
-                    // Extract the key part after "Bearer "
-                    String key = authHeaderValue.substring("Bearer ".length());
-
-                    // Now you can use the key as needed
-                    // For example, you can compare it with the expected key
-                    if (!Dotenv.load().get("MOLI_KEY").equals(key)) {
-                       // The provided key does not match the expected key
-                        return new GenericSOAPResponse<>("Invalid key", false, null);
-                    } 
-                } else {
-                    // Header is not in the expected format
-                    return new GenericSOAPResponse<>("Invalid Authorization header format", false, null);
-                }
-            }
-        } else {
-            // "Authorization" header is not present
-            return new GenericSOAPResponse<>("Authorization header is missing", false, null);
-        }
+        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Collections.singletonList(
+                MOLIConnection.token
+        )));
+        if(error != null) return new GenericSOAPResponse<>(error, false, null);
         
         if(user_id == null){
             return new GenericSOAPResponse<>("No user_id provided", false, null);
@@ -278,39 +165,11 @@ public class SubscriptionService {
 
     @WebMethod
     public GenericSOAPResponse<Integer> subscribeUpdate(@WebParam(name = "user_id") Integer user_id, @WebParam(name = "author_id") Integer author_id, @WebParam(name = "status") String status){
-         // Access WebServiceContext to get the MessageContext
         MessageContext messageContext = webServiceContext.getMessageContext();
-
-        // Get the HTTP headers from the MessageContext
-        Map<String, List<String>> headers = (Map<String, List<String>>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-
-        // Check if the "Authorization" header is present
-        if (headers != null && headers.containsKey("Authorization")) {
-            // Get the value of the "Authorization" header
-            List<String> authHeaderValues = headers.get("Authorization");
-            if (authHeaderValues != null && !authHeaderValues.isEmpty()) {
-                String authHeaderValue = authHeaderValues.get(0);
-
-                // Check if the header starts with "Bearer "
-                if (authHeaderValue.startsWith("Bearer ")) {
-                    // Extract the key part after "Bearer "
-                    String key = authHeaderValue.substring("Bearer ".length());
-
-                    // Now you can use the key as needed
-                    // For example, you can compare it with the expected key
-                    if (!Dotenv.load().get("REST_KEY").equals(key)) {
-                       // The provided key does not match the expected key
-                        return new GenericSOAPResponse<>("Invalid key", false, null);
-                    } 
-                } else {
-                    // Header is not in the expected format
-                    return new GenericSOAPResponse<>("Invalid Authorization header format", false, null);
-                }
-            }
-        } else {
-            // "Authorization" header is not present
-            return new GenericSOAPResponse<>("Authorization header is missing", false, null);
-        }
+        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Collections.singletonList(
+                RESTConnection.token
+        )));
+        if(error != null) return new GenericSOAPResponse<>(error, false, null);
         
         if(user_id == null){
             return new GenericSOAPResponse<>("No user_id provided", false, null);
@@ -342,39 +201,11 @@ public class SubscriptionService {
 
     @WebMethod
     public GenericSOAPResponse<Integer> deleteSubscriptionsOne(@WebParam(name = "user_id") Integer user_id, @WebParam(name = "author_id") Integer author_id){
-         // Access WebServiceContext to get the MessageContext
         MessageContext messageContext = webServiceContext.getMessageContext();
-
-        // Get the HTTP headers from the MessageContext
-        Map<String, List<String>> headers = (Map<String, List<String>>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-
-        // Check if the "Authorization" header is present
-        if (headers != null && headers.containsKey("Authorization")) {
-            // Get the value of the "Authorization" header
-            List<String> authHeaderValues = headers.get("Authorization");
-            if (authHeaderValues != null && !authHeaderValues.isEmpty()) {
-                String authHeaderValue = authHeaderValues.get(0);
-
-                // Check if the header starts with "Bearer "
-                if (authHeaderValue.startsWith("Bearer ")) {
-                    // Extract the key part after "Bearer "
-                    String key = authHeaderValue.substring("Bearer ".length());
-
-                    // Now you can use the key as needed
-                    // For example, you can compare it with the expected key
-                    if (!Dotenv.load().get("REST_KEY").equals(key)) {
-                       // The provided key does not match the expected key
-                        return new GenericSOAPResponse<>("Invalid key", false, null);
-                    } 
-                } else {
-                    // Header is not in the expected format
-                    return new GenericSOAPResponse<>("Invalid Authorization header format", false, null);
-                }
-            }
-        } else {
-            // "Authorization" header is not present
-            return new GenericSOAPResponse<>("Authorization header is missing", false, null);
-        }
+        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Collections.singletonList(
+                RESTConnection.token
+        )));
+        if(error != null) return new GenericSOAPResponse<>(error, false, null);
         
         if(user_id == null){
             return new GenericSOAPResponse<>("No user_id provided", false, null);
