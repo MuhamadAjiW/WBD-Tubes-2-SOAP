@@ -147,11 +147,11 @@ public class SubscriptionService {
         }
 
         int rowCount = subscriptionDAO.updateStatus(user_id, author_id, newStatus);
-        if (rowCount == 0){
+        if (rowCount != 0){
             return new GenericSOAPResponse<>("Subscription request successfully updated", true, rowCount);
         }
         else{
-            return new GenericSOAPResponse<>("Subscription entry does not exist", false, null);
+            return new GenericSOAPResponse<>("Subscription request update failed", false, null);
         }
     }
 
@@ -165,11 +165,11 @@ public class SubscriptionService {
         }
 
         int rowCount = subscriptionDAO.deleteOne(user_id, author_id);
-        if (rowCount == 0){
+        if (rowCount != 0){
             return new GenericSOAPResponse<>("Subscription request successfully deleted", true, rowCount);
         }
         else{
-            return new GenericSOAPResponse<>("Subscription entry does not exist", false, null);
+            return new GenericSOAPResponse<>("Subscription request deletion failed", false, null);
         }
     }
 

@@ -6,11 +6,13 @@ services:
     env_file: .env_docker
     volumes:
       - .:/usr/src/app
-    build: .
-    networks:
-      - dockerNet
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       - db
+    networks:
+      - dockerNet
   db:
     image: mysql:latest
     ports:

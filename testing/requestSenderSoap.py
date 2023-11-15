@@ -65,7 +65,7 @@ def methodtest():
     return response.content
 
 def subtest():
-    soap_action = "http://services.wbdsoap/SubscriptionService/getSubscriptionsByUser"
+    soap_action = "http://services.wbdsoap/SubscriptionService/subscribeRequest"
     url = "http://localhost:8080/api/subscribe"
     headers = {
         "Content-Type": "text/xml;charset=UTF-8",
@@ -75,10 +75,10 @@ def subtest():
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://services.wbdsoap/">
     <soapenv:Header/>
     <soapenv:Body>
-        <tns:getSubscriptionsByUser>
-            <user_id>1</user_id>
-            <author_id>5</author_id>
-        </tns:getSubscriptionsByUser>
+        <tns:subscribeRequest>
+            <user_id>5</user_id>
+            <author_id>1</author_id>
+        </tns:subscribeRequest>
     </soapenv:Body>
     </soapenv:Envelope>
     """
@@ -110,7 +110,7 @@ def updatetest():
     return response.content
 
 if __name__ == "__main__":
-    response_text = updatetest()
+    response_text = subtest()
     # root = et.fromstring(response_text)
     # message = root.find(".//return/message").text
     # valid = root.find(".//return/valid").text
