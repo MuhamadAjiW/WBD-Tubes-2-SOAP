@@ -114,8 +114,9 @@ public class SubscriptionService {
     @WebMethod
     public GenericSOAPResponse<SubscriptionEntity> getSubscriptionsOne(@WebParam(name = "user_id") Integer user_id, @WebParam(name = "author_id") Integer author_id){
         MessageContext messageContext = webServiceContext.getMessageContext();
-        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Collections.singletonList(
-                RESTConnection.token
+        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Arrays.asList(
+                RESTConnection.token,
+                MOLIConnection.token
         )));
         if(error != null) return new GenericSOAPResponse<>(error, false, null);
         
@@ -202,8 +203,9 @@ public class SubscriptionService {
     @WebMethod
     public GenericSOAPResponse<Integer> deleteSubscriptionsOne(@WebParam(name = "user_id") Integer user_id, @WebParam(name = "author_id") Integer author_id){
         MessageContext messageContext = webServiceContext.getMessageContext();
-        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Collections.singletonList(
-                RESTConnection.token
+        String error = this.authMiddleware.checkKey(messageContext, new ArrayList<>(Arrays.asList(
+                RESTConnection.token,
+                MOLIConnection.token
         )));
         if(error != null) return new GenericSOAPResponse<>(error, false, null);
         
