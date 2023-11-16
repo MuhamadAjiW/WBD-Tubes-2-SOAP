@@ -93,15 +93,16 @@ def updatetest():
     headers = {
         "Content-Type": "text/xml;charset=UTF-8",
         "SOAPAction": f'"{soap_action}"',
+        "Authorization": "Bearer restdulugasi"
     }
     body = """
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://services.wbdsoap/">
     <soapenv:Header/>
     <soapenv:Body>
         <tns:subscribeUpdate>
-            <user_id>1</user_id>
-            <author_id>1</author_id>
-            <status>ACCEPT</status>
+            <user_id>11</user_id>
+            <author_id>3</author_id>
+            <status>REJECT</status>
         </tns:subscribeUpdate>
     </soapenv:Body>
     </soapenv:Envelope>
@@ -111,7 +112,7 @@ def updatetest():
     return response.content
 
 if __name__ == "__main__":
-    response_text = subtest()
+    response_text = updatetest()
     # root = et.fromstring(response_text)
     # message = root.find(".//return/message").text
     # valid = root.find(".//return/valid").text

@@ -7,7 +7,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import wbdsoap.models.LogEntity;
 import wbdsoap.models.SubscriptionEntity;
-import wbdsoap.test.TestEntity;
 
 import java.util.Properties;
 
@@ -35,7 +34,6 @@ public class HibernateUtil {
         Configuration configuration = new Configuration();
         configuration.setProperties(properties);
 
-        configuration.addAnnotatedClass(TestEntity.class);
         configuration.addAnnotatedClass(LogEntity.class);
         configuration.addAnnotatedClass(SubscriptionEntity.class);
 
