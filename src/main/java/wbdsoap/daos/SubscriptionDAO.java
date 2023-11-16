@@ -6,8 +6,10 @@ import org.hibernate.Transaction;
 import wbdsoap.enums.SubscriptionFilter;
 import wbdsoap.enums.SubscriptionStatus;
 import wbdsoap.models.SubscriptionEntity;
+import wbdsoap.utils.ServerUtil;
 
 import javax.persistence.Query;
+import java.time.Instant;
 import java.util.List;
 
 public class SubscriptionDAO extends GenericDAO<SubscriptionEntity> {
@@ -97,11 +99,12 @@ public class SubscriptionDAO extends GenericDAO<SubscriptionEntity> {
     public int updateStatus(Integer user_id, Integer author_id, SubscriptionStatus status){
         try (Session session = this.sessionFactory.openSession()) {
             session.beginTransaction();
-            String hql = "UPDATE SubscriptionEntity t SET status = :status WHERE t.author_id = :author_id AND t.user_id = :user_id";
+            String hql = "UPDATE SubscriptionEntity t SET t.status = :status, t.timestamp = :timestamp WHERE t.author_id = :author_id AND t.user_id = :user_id";
             Query query = session.createQuery(hql);
             query.setParameter("author_id", author_id);
             query.setParameter("user_id", user_id);
             query.setParameter("status", status);
+            query.setParameter("timestamp", Instant.now());
             System.out.println("Status: " + status.toString());
             System.out.println("aid: " + author_id.toString());
             System.out.println("uid: " + user_id.toString());
@@ -120,6 +123,22 @@ public class SubscriptionDAO extends GenericDAO<SubscriptionEntity> {
             Query query = session.createQuery(hql);
             query.setParameter("author_id", author_id);
             query.setParameter("user_id", user_id);
+
+            int rowsDeleted = query.executeUpdate();
+            session.getTransaction().commit();
+            return rowsDeleted;
+        }
+    }
+
+    public int deleteExpiredSubs(){
+        System.out.println("Deleting expired entries...");
+        try (Session session = this.sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            String hql = "DELETE FROM SubscriptionEntity t WHERE t.timestamp <= :expireTime and status = :status";
+            Query query = session.createQuery(hql);
+            query.setParameter("expireTime", Instant.now().minus(ServerUtil.rejectedSubExpireTime));
+            query.setParameter("status", SubscriptionStatus.REJECTED);
 
             int rowsDeleted = query.executeUpdate();
             session.getTransaction().commit();
